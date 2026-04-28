@@ -3,11 +3,14 @@ export const trainingData = {
   reference: "Kirkpatrick Level 4",
   steps: [
     {
-      label: "بيانات الغلاف",
+      label: "بيانات الغلاف والهوية",
       fields: [
-        { id: "p_name", label: "اسم البرنامج التدريبي", placeholder: "مثال: القيادة الرقمية" },
-        { id: "p_date_custom", label: "تاريخ التقرير (اختيار سريع)", type: "strategic-date" }, 
-        { id: "p_location", label: "مقر الانعقاد", placeholder: "مثال: صنعاء - قاعة السفير" }
+        { id: "p_logo", label: "شعار المؤسسة", type: "file-placeholder" }, // حقل الشعار
+        { id: "p_name", label: "عنوان البرنامج الاستراتيجي", placeholder: "مثال: القيادة الرقمية والتحول المؤسسي" },
+        { id: "p_client", label: "الجهة المستفيدة (Client)", placeholder: "مثال: وزارة التخطيط والتعاون الدولي" },
+        { id: "p_ref", label: "رقم المرجع (Ref No.)", placeholder: "مثال: YF-2026-TR-001" },
+        { id: "p_date_custom", label: "تاريخ التقرير", type: "strategic-date" },
+        { id: "p_security", label: "تصنيف السرية", type: "dropdown-security" } // حقل السرية
       ]
     },
     {
