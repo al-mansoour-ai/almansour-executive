@@ -1,118 +1,50 @@
-import React, { useState } from 'react';
-import Head from 'next/head';
-import { trainingData } from '../src/data/training'; 
-import PricingSection from '../src/components/Pricing';
+// ... (داخل دالة SovereignFullUI) ...
 
-export default function AlMansourPlatform() {
-  const [activeTab, setActiveTab] = useState('platform'); // التبويب الحالي
-  const [currentStep, setCurrentStep] = useState(0); // الخطوة الحالية في المنصة
-
-  const years = Array.from({ length: 30 }, (_, i) => 2026 - i);
-  const months = ["يناير", "فبراير", "مارس", "أبريل", "مايو", "يونيو", "يوليو", "أغسطس", "سبتمبر", "أكتوبر", "نوفمبر", "ديسمبر"];
-  const days = Array.from({ length: 31 }, (_, i) => i + 1);
-
-  const step = trainingData.steps[currentStep];
-
-  return (
-    <div dir="rtl" style={{ backgroundColor: "#f4f7f6", minHeight: "100vh", fontFamily: "'Cairo', sans-serif", paddingBottom: "100px" }}>
-      <Head>
-        <title>منصة المنصور - الإصدار الكامل</title>
-        <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet" />
-      </Head>
-
-      {/* Header */}
-      <div style={{ background: "#0a192f", color: "white", padding: "25px", textAlign: "center", borderBottom: "4px solid #d4af37" }}>
-        <h2 style={{ fontSize: "18px", fontWeight: 900, margin: 0 }}>🏛️ منصة المنصور الاستراتيجية</h2>
+{/* تحديث الحقول المنهجية لتشمل الأنواع الجديدة */}
+{step.fields && step.fields.map(f => (
+  <div key={f.id} style={{ marginBottom: "25px" }}>
+    <label style={{ display: "block", fontWeight: 900, marginBottom: "8px", fontSize: "14px", color: "#0a192f" }}>{f.label}</label>
+    
+    {/* 1. معالجة حقل الشعار (تصميم راقٍ) */}
+    {f.type === 'file-placeholder' ? (
+      <div style={{ border: "2px dashed #d4af37", padding: "20px", borderRadius: "15px", textAlign: "center", background: "#fffdf5", cursor: "pointer" }}>
+        <div style={{ fontSize: "24px" }}>🖼️</div>
+        <span style={{ fontSize: "12px", color: "#d4af37", fontWeight: 700 }}>اضغط لرفع شعار الجهة الصادر عنها التقرير</span>
       </div>
+    ) 
+    
+    // 2. معالجة منتقي التاريخ الثلاثي
+    : f.type === 'strategic-date' ? (
+      <div style={{ display: "flex", gap: "8px" }}>
+        <select style={{ flex: 1.2, padding: "12px", borderRadius: "10px", border: "1px solid #ddd", background: "#fff", fontWeight: 700 }}>
+          <option>السنة</option>
+          {years.map(y => <option key={y}>{y}</option>)}
+        </select>
+        <select style={{ flex: 1.5, padding: "12px", borderRadius: "10px", border: "1px solid #ddd", background: "#fff", fontWeight: 700 }}>
+          <option>الشهر</option>
+          {months.map((m, i) => <option key={i}>{m}</option>)}
+        </select>
+        <select style={{ flex: 1, padding: "12px", borderRadius: "10px", border: "1px solid #ddd", background: "#fff", fontWeight: 700 }}>
+          <option>اليوم</option>
+          {days.map(d => <option key={d}>{d}</option>)}
+        </select>
+      </div>
+    )
 
-      <main style={{ maxWidth: "600px", margin: "20px auto", padding: "0 15px" }}>
-        
-        {/* 1. عرض قسم الباقات */}
-        {activeTab === 'pricing' && <PricingSection />}
+    // 3. معالجة مستوى السرية
+    : f.type === 'dropdown-security' ? (
+      <select style={{ width: "100%", padding: "14px", borderRadius: "10px", border: "1px solid #ddd", background: "#fff", fontWeight: 700, color: "#c0392b" }}>
+        <option>اختر مستوى السرية</option>
+        <option value="public">عام (Public)</option>
+        <option value="restricted">مقيد (Restricted)</option>
+        <option value="confidential">سري (Confidential)</option>
+        <option value="secret">سري للغاية (Top Secret)</option>
+      </select>
+    )
 
-        {/* 2. عرض قسم الإدارة (تأكد من هذا الجزء) */}
-        {activeTab === 'admin' && (
-          <div style={{ background: "white", borderRadius: "20px", padding: "40px 20px", textAlign: "center", boxShadow: "0 10px 30px rgba(0,0,0,0.05)" }}>
-            <div style={{ fontSize: "60px", marginBottom: "20px" }}>⚙️</div>
-            <h3 style={{ color: "#0a192f", fontWeight: 900, fontSize: "22px" }}>مركز الإدارة والتحكم</h3>
-            <p style={{ color: "#7f8c8d", lineHeight: "1.8" }}>مرحباً بك في المنطقة السيادية للتحكم. هنا ستتمكن قريباً من مراجعة كافة التقارير الصادرة وإدارة صلاحيات المستخدمين.</p>
-            <div style={{ marginTop: "30px", padding: "20px", background: "#fff9db", borderRadius: "15px", border: "1px dashed #fab005", color: "#856404", fontWeight: 700 }}>
-               النظام قيد التجهيز المنهجي حالياً لربطه بقاعدة البيانات.
-            </div>
-          </div>
-        )}
-
-        {/* 3. عرض قسم المنصة (الرئيسي) */}
-        {activeTab === 'platform' && (
-          <div style={{ background: "white", borderRadius: "20px", padding: "25px", boxShadow: "0 10px 30px rgba(0,0,0,0.05)" }}>
-            <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "30px", background: "#f8f9fa", padding: "10px", borderRadius: "10px" }}>
-              {trainingData.steps.map((s, i) => (
-                <div key={i} style={{ fontSize: "10px", fontWeight: 900, color: i === currentStep ? "#0a192f" : "#adb5bd" }}>{i+1}. {s.label}</div>
-              ))}
-            </div>
-
-            <h3 style={{ color: "#0a192f", fontWeight: 900, marginBottom: "20px" }}>{step.label}</h3>
-
-            {/* الحقول المنهجية */}
-            {step.fields && step.fields.map(f => (
-              <div key={f.id} style={{ marginBottom: "20px" }}>
-                <label style={{ display: "block", fontWeight: 700, marginBottom: "8px", fontSize: "14px" }}>{f.label}</label>
-                {f.type === 'strategic-date' ? (
-                  <div style={{ display: "flex", gap: "8px" }}>
-                    <select style={{ flex: 1.2, padding: "12px", borderRadius: "10px", border: "1px solid #ddd", background: "#fff", fontWeight: 700 }}>
-                      <option>السنة</option>
-                      {years.map(y => <option key={y}>{y}</option>)}
-                    </select>
-                    <select style={{ flex: 1.5, padding: "12px", borderRadius: "10px", border: "1px solid #ddd", background: "#fff", fontWeight: 700 }}>
-                      <option>الشهر</option>
-                      {months.map((m, i) => <option key={i}>{m}</option>)}
-                    </select>
-                    <select style={{ flex: 1, padding: "12px", borderRadius: "10px", border: "1px solid #ddd", background: "#fff", fontWeight: 700 }}>
-                      <option>اليوم</option>
-                      {days.map(d => <option key={d}>{d}</option>)}
-                    </select>
-                  </div>
-                ) : (
-                  <input type="text" placeholder={f.placeholder} style={{ width: "100%", padding: "14px", borderRadius: "10px", border: "1px solid #ddd", boxSizing: "border-box", fontFamily: "inherit" }} />
-                )}
-              </div>
-            ))}
-
-            {/* الأسئلة العلمية */}
-            {step.questions && step.questions.map(q => (
-              <div key={q.id} style={{ marginBottom: "25px" }}>
-                <label style={{ display: "block", fontWeight: 900, fontSize: "16px", marginBottom: "8px" }}>{q.id}. {q.q}</label>
-                <div style={{ background: "#fff9db", padding: "10px", borderRadius: "8px", borderRight: "4px solid #fab005", fontSize: "12px" }}>
-                  <b>💡 إرشاد:</b> {q.hint}<br/><i>{q.example}</i>
-                </div>
-                <textarea rows="3" style={{ width: "100%", padding: "14px", marginTop: "10px", borderRadius: "10px", border: "1px solid #eee", fontFamily: "inherit" }}></textarea>
-              </div>
-            ))}
-
-            <div style={{ display: "flex", gap: "10px", marginTop: "30px" }}>
-              {currentStep > 0 && <button onClick={() => setCurrentStep(0)} style={{ flex: 1, padding: "15px", borderRadius: "12px", background: "#fff", border: "1px solid #ddd", fontWeight: 700 }}>السابق</button>}
-              <button onClick={() => currentStep < trainingData.steps.length - 1 ? setCurrentStep(currentStep + 1) : null} style={{ flex: 2, padding: "15px", borderRadius: "12px", background: "#0a192f", color: "white", fontWeight: 900, border: "none" }}>
-                {currentStep < trainingData.steps.length - 1 ? "التالي" : "توليد التقرير 📄"}
-              </button>
-            </div>
-          </div>
-        )}
-      </main>
-
-      {/* Navigation Bar */}
-      <nav style={{ position: "fixed", bottom: 0, width: "100%", height: "80px", background: "white", display: "flex", borderTop: "1px solid #eee", zIndex: 1000, paddingBottom: "10px" }}>
-        {[ 
-          {id: 'platform', l: 'المنصة', i: '🏠'}, 
-          {id: 'pricing', l: 'الباقـات', i: '💳'}, 
-          {id: 'admin', l: 'الإدارة', i: '⚙️'} 
-        ].map(tab => (
-          <button key={tab.id} onClick={() => setActiveTab(tab.id)} style={{ flex: 1, border: "none", background: "none", color: activeTab === tab.id ? "#0a192f" : "#adb5bd", transition: "0.2s" }}>
-            <div style={{ fontSize: "24px" }}>{tab.i}</div>
-            <div style={{ fontSize: "12px", fontWeight: 900 }}>{tab.l}</div>
-            {activeTab === tab.id && <div style={{ width: "20px", height: "3px", background: "#d4af37", margin: "4px auto", borderRadius: "10px" }}></div>}
-          </button>
-        ))}
-      </nav>
-    </div>
-  );
-}
+    // 4. الحقول النصية العادية
+    : (
+      <input type="text" placeholder={f.placeholder} style={{ width: "100%", padding: "14px", borderRadius: "10px", border: "1px solid #ddd", boxSizing: "border-box", fontFamily: "inherit" }} />
+    )}
+  </div>
+))}
