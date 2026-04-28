@@ -3,7 +3,7 @@ import Head from 'next/head';
 import { trainingData } from '../src/data/training'; 
 import PricingSection from '../src/components/Pricing';
 
-export default function SovereignFinalV3() {
+export default function SovereignFinalUI() {
   const [currentStep, setCurrentStep] = useState(0);
   const [activeTab, setActiveTab] = useState('platform');
 
@@ -16,23 +16,29 @@ export default function SovereignFinalV3() {
   return (
     <div dir="rtl" style={{ backgroundColor: "#f4f7f6", minHeight: "100vh", fontFamily: "'Cairo', sans-serif", paddingBottom: "100px" }}>
       <Head>
-        <title>منصة المنصور - الإصدار السيادي</title>
+        <title>منصة المنصور - الغلاف الكامل</title>
         <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet" />
       </Head>
 
-      <div style={{ background: "#0a192f", color: "white", padding: "25px", textAlign: "center", borderBottom: "4px solid #d4af37" }}>
+      <div style={{ background: "#0a192f", color: "white", padding: "25px", textAlign: "center", borderBottom: "4px solid #d4af37", boxShadow: "0 4px 15px rgba(0,0,0,0.2)" }}>
         <h2 style={{ fontSize: "18px", fontWeight: 900, margin: 0 }}>🏛️ منصة المنصور الاستراتيجية</h2>
       </div>
 
       <main style={{ maxWidth: "600px", margin: "20px auto", padding: "0 15px" }}>
         {activeTab === 'pricing' && <PricingSection />}
-        {activeTab === 'admin' && <div style={{textAlign:'center', padding:'50px'}}>⚙️ ركن الإدارة قيد التفعيل...</div>}
+        {activeTab === 'admin' && (
+          <div style={{ background: "white", borderRadius: "20px", padding: "40px", textAlign: "center", boxShadow: "0 10px 30px rgba(0,0,0,0.05)" }}>
+            <div style={{ fontSize: "50px" }}>⚙️</div>
+            <h3 style={{ fontWeight: 900 }}>مركز الإدارة والتحكم</h3>
+            <p style={{ color: "#7f8c8d" }}>القسم تحت التجهيز المنهجي...</p>
+          </div>
+        )}
 
         {activeTab === 'platform' && (
           <div style={{ background: "white", borderRadius: "20px", padding: "25px", boxShadow: "0 10px 30px rgba(0,0,0,0.05)" }}>
             <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "30px", background: "#f8f9fa", padding: "10px", borderRadius: "10px" }}>
               {trainingData.steps.map((s, i) => (
-                <div key={i} style={{ fontSize: "11px", fontWeight: 900, color: i === currentStep ? "#0a192f" : "#adb5bd" }}>{i+1}. {s.label}</div>
+                <div key={i} style={{ fontSize: "10px", fontWeight: 900, color: i === currentStep ? "#0a192f" : "#adb5bd" }}>{i+1}. {s.label}</div>
               ))}
             </div>
 
@@ -42,20 +48,28 @@ export default function SovereignFinalV3() {
               <div key={f.id} style={{ marginBottom: "20px" }}>
                 <label style={{ display: "block", fontWeight: 700, marginBottom: "8px", fontSize: "14px", color: "#0a192f" }}>{f.label}</label>
                 
+                {/* 1. زر رفع الشعار */}
                 {f.type === 'file-upload' ? (
-                  <div style={{ border: "2px dashed #d4af37", padding: "15px", borderRadius: "12px", textAlign: "center", background: "#fffdf5", position: 'relative' }}>
-                    <input type="file" style={{ opacity: 0, position: 'absolute', width: '100%', height: '50px', cursor: 'pointer' }} />
-                    <span style={{ fontSize: "12px", color: "#d4af37", fontWeight: 900 }}>📤 اضغط لرفع الشعار الرسمي</span>
+                  <div style={{ border: "2px dashed #d4af37", padding: "20px", borderRadius: "12px", textAlign: "center", background: "#fffdf5", cursor: "pointer", position: "relative" }}>
+                    <input type="file" style={{ opacity: 0, position: "absolute", width: "100%", height: "100%", top: 0, right: 0, cursor: "pointer" }} />
+                    <div style={{ fontSize: "24px" }}>📤</div>
+                    <span style={{ fontSize: "12px", color: "#d4af37", fontWeight: 900 }}>اضغط لرفع شعار المؤسسة</span>
                   </div>
-                ) : f.type === 'security-dropdown' ? (
+                ) 
+                
+                // 2. درجة السرية
+                : f.type === 'security-dropdown' ? (
                   <select style={{ width: "100%", padding: "14px", borderRadius: "10px", border: "1px solid #ddd", background: "#fff", fontWeight: 700, color: "#c0392b" }}>
-                    <option>--- حدد السرية ---</option>
+                    <option>--- حدد مستوى السرية ---</option>
                     <option>📄 عام (Public)</option>
                     <option>🔒 مقيد (Restricted)</option>
                     <option>🛑 سري (Confidential)</option>
                     <option>💎 سري للغاية (Top Secret)</option>
                   </select>
-                ) : f.type === 'strategic-date' ? (
+                )
+
+                // 3. التاريخ الاستراتيجي
+                : f.type === 'strategic-date' ? (
                   <div style={{ display: "flex", gap: "8px" }}>
                     <select style={{ flex: 1.2, padding: "12px", borderRadius: "10px", border: "1px solid #ddd", background: "#fff", fontWeight: 700 }}>
                       <option>السنة</option>
@@ -70,12 +84,16 @@ export default function SovereignFinalV3() {
                       {days.map(d => <option key={d}>{d}</option>)}
                     </select>
                   </div>
-                ) : (
+                )
+
+                // 4. الحقول النصية (الجهة المنفذة، المعد، الخ)
+                : (
                   <input type="text" placeholder={f.placeholder} style={{ width: "100%", padding: "14px", borderRadius: "10px", border: "1px solid #ddd", boxSizing: "border-box", fontFamily: "inherit" }} />
                 )}
               </div>
             ))}
 
+            {/* الأسئلة العلمية (تظهر في الخطوة الثانية) */}
             {step.questions && step.questions.map(q => (
               <div key={q.id} style={{ marginBottom: "25px" }}>
                 <label style={{ display: "block", fontWeight: 900, fontSize: "16px", marginBottom: "8px" }}>{q.id}. {q.q}</label>
@@ -96,11 +114,17 @@ export default function SovereignFinalV3() {
         )}
       </main>
 
+      {/* الشريط السفلي المطور */}
       <nav style={{ position: "fixed", bottom: 0, width: "100%", height: "80px", background: "white", display: "flex", borderTop: "1px solid #eee", zIndex: 1000, paddingBottom: "10px" }}>
-        {[ {id: 'platform', l: 'المنصة', i: '🏠'}, {id: 'pricing', l: 'الباقات', i: '💳'}, {id: 'admin', l: 'الإدارة', i: '⚙️'} ].map(tab => (
-          <button key={tab.id} onClick={() => setActiveTab(tab.id)} style={{ flex: 1, border: "none", background: "none", color: activeTab === tab.id ? "#0a192f" : "#adb5bd" }}>
+        {[ 
+          {id: 'platform', l: 'المنصة', i: '🏠'}, 
+          {id: 'pricing', l: 'الباقات', i: '💳'}, 
+          {id: 'admin', l: 'الإدارة', i: '⚙️'} 
+        ].map(tab => (
+          <button key={tab.id} onClick={() => setActiveTab(tab.id)} style={{ flex: 1, border: "none", background: "none", color: activeTab === tab.id ? "#0a192f" : "#adb5bd", cursor: "pointer" }}>
             <div style={{ fontSize: "24px" }}>{tab.i}</div>
             <div style={{ fontSize: "12px", fontWeight: 900 }}>{tab.l}</div>
+            {activeTab === tab.id && <div style={{ width: "15px", height: "3px", background: "#d4af37", margin: "4px auto", borderRadius: "10px" }}></div>}
           </button>
         ))}
       </nav>
