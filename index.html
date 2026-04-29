@@ -2,25 +2,26 @@
 <html lang="ar">
 <head>
 <meta charset="UTF-8">
-<title>منصة التقارير</title>
+<title>AI Report Engine</title>
 <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
 
-<div class="container">
+<div class="app">
 
-<h1>🏛️ منصة التقارير الذكية</h1>
+<h1>🏛️ AI Strategic Engine</h1>
 
-<input id="input" placeholder="اكتب وصف النشاط">
+<p>اكتب وصف النشاط… واترك الذكاء يصنع تقريرك</p>
 
-<button onclick="start()">ابدأ</button>
+<textarea id="input" placeholder="مثال: زيارة مشروع مياه في عدن"></textarea>
 
-<div id="questions"></div>
+<button onclick="generate()">🚀 توليد الأمر الاحترافي</button>
 
-<button onclick="generate()">توليد البرومبت</button>
-
+<div id="result" class="hidden">
 <pre id="output"></pre>
+<button onclick="copy()">📋 نسخ</button>
+</div>
 
 </div>
 
